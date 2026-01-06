@@ -187,18 +187,13 @@ namespace MultiplayerMirror.Core
 
         private static IBeatSaberConnectedPlayer CreateMockPlayer(IBeatSaberConnectedPlayer basePlayer)
         {
-            if (basePlayer is not BeatSaberConnectedPlayer bsPlayer)
-            {
-                throw new ArgumentException($"Player {basePlayer.userId} is not a BeatSaberConnectedPlayer???");
-            }
-            
             var mockPlayer = new MockPlayer(new MockPlayerSettings()
             {
                 userId = $"Mirror#{basePlayer.userId}",
                 userName = $"Mirror#{basePlayer.userName}",
                 sortIndex = basePlayer.sortIndex
             }, false);
-            mockPlayer.multiplayerAvatarsData = bsPlayer.multiplayerAvatarsData;
+            mockPlayer.multiplayerAvatarsData = basePlayer.multiplayerAvatarsData;
             return mockPlayer;
         }
 
