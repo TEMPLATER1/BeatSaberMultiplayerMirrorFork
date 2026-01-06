@@ -10,26 +10,28 @@ namespace MultiplayerMirror.Core.Scripts
         public bool EnableMirror { get; set; }
         public bool RestrictPose { get; set; }
 
-        public IConnectedPlayer LocalPlayer { get; set; }
+        public IBeatSaberConnectedPlayer LocalPlayer { get; set; }
         public INodePoseSyncStateManager NodePoseSyncStateManager { get; set; }
         public IAvatarPoseRestriction AvatarPoseRestriction { get; set; }
 
         public AvatarPoseData currentPose { get; set; }
-        
+
         public event Action<AvatarPoseData> poseDidChangeEvent = null!;
-        
-        public MirrorAvatarPoseDataProvider(IConnectedPlayer localPlayer, INodePoseSyncStateManager nodePoseSyncStateManager, 
+
+        public MirrorAvatarPoseDataProvider(IBeatSaberConnectedPlayer localPlayer,
+            INodePoseSyncStateManager nodePoseSyncStateManager,
             IAvatarPoseRestriction avatarPoseRestriction)
         {
             EnableMirror = true;
             RestrictPose = true;
-            
+
             LocalPlayer = localPlayer;
             NodePoseSyncStateManager = nodePoseSyncStateManager;
             AvatarPoseRestriction = avatarPoseRestriction;
         }
 
-        public MirrorAvatarPoseDataProvider(IConnectedPlayer localPlayer, ConnectedPlayerAvatarPoseDataProvider baseProvider)
+        public MirrorAvatarPoseDataProvider(IBeatSaberConnectedPlayer localPlayer,
+            ConnectedPlayerAvatarPoseDataProvider baseProvider)
             : this(localPlayer, baseProvider._nodePoseSyncStateManager, baseProvider._avatarPoseRestriction)
         {
         }

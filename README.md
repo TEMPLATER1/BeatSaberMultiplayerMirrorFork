@@ -29,6 +29,7 @@ Multiplayer Mirror lets you see your own multiplayer avatar:
 | **Always show Self Hologram** | If enabled, you'll always see your own hologram in game, no matter what place you're in.                                            |
 | **Show Duel Self Hologram**   | If enabled, the Self Hologram will be shown in the Duel (1v1) layout as well.                                                       |
 | **Invert mirror**             | If enabled, your lobby and game mirrors will be inverted, like you are normally on the results screen.                              |                                                                                        
+
 ## Installation
 
 This mod is currently only available for PCVR.
@@ -39,12 +40,9 @@ You can also manually [**✅ Download the latest release**](https://github.com/r
 
 ## Requirements
 
-### ✅ Works with Beat Saber 1.38
+### ✅ Works with Beat Saber 1.42.0+
 
-- Beat Saber: v1.38.0 or newer
-- [BSIPA](https://github.com/nike4613/BeatSaber-IPA-Reloaded/releases): v4.3.5 or newer
-- [SiraUtil](https://github.com/Auros/SiraUtil/releases): v3.1.12 or newer
-- [BeatSaberMarkupLanguage](https://github.com/monkeymanboy/BeatSaberMarkupLanguage/releases): v1.12.2 or newer
+Check the [releases page](https://github.com/roydejong/BeatSaberMultiplayerMirror/releases/latest) for the latest requirements and compatibility information.
 
 ## Usage notes
 
@@ -52,8 +50,3 @@ You can also manually [**✅ Download the latest release**](https://github.com/r
 
 If you turn off Holograms in MultiplayerExtensions, that setting will be ignored if you enable a self hologram in this
 mod.
-
-## See also
-
-- [BeatSaberAvatarExtras](https://github.com/roydejong/BeatSaberAvatarExtras) - Add more customization options for your
-  avatar!

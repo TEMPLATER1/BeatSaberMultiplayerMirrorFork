@@ -9,14 +9,14 @@ namespace MultiplayerMirror.Core.Scripts
         public bool EnableMirror { get; set; }
         public bool RestrictPose { get; set; }
 
-        public IConnectedPlayer? LocalPlayer { get; set; }
+        public IBeatSaberConnectedPlayer? LocalPlayer { get; set; }
         public INodePoseSyncStateManager? NodePoseSyncStateManager { get; set; }
         public IAvatarPoseRestriction? AvatarPoseRestriction { get; set; }
         public Transform? LeftSaberTransform { get; set; }
         public Transform? RightSaberTransform { get; set; }
         public Transform? HeadTransform { get; set; }
 
-        public void Init(IConnectedPlayer localPlayer,
+        public void Init(IBeatSaberConnectedPlayer localPlayer,
             INodePoseSyncStateManager nodePoseSyncStateManager,
             IAvatarPoseRestriction avatarPoseRestriction, Transform leftSaberTransform, Transform rightSaberTransform,
             Transform headTransform)
@@ -32,7 +32,7 @@ namespace MultiplayerMirror.Core.Scripts
             HeadTransform = headTransform;
         }
 
-        public void Init(IConnectedPlayer localPlayer, MultiplayerAvatarPoseController baseController)
+        public void Init(IBeatSaberConnectedPlayer localPlayer, MultiplayerAvatarPoseController baseController)
         {
             Init(localPlayer, baseController._nodePoseSyncStateManager, baseController._avatarPoseRestriction,
                 baseController._leftSaberTransform, baseController._rightSaberTransform, baseController._headTransform);
@@ -75,7 +75,7 @@ namespace MultiplayerMirror.Core.Scripts
                 AvatarPoseRestriction?.RestrictPose(headRot, headPos, leftPos, rightPos,
                     out headPos, out leftPos, out rightPos);
             }
-            
+
             if (LeftSaberTransform != null)
                 LeftSaberTransform.SetLocalPositionAndRotation(leftPos, leftRot);
             if (RightSaberTransform != null)

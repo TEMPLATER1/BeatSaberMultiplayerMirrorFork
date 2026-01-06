@@ -24,7 +24,7 @@ namespace MultiplayerMirror.Core
         [Inject] private readonly MultiplayerLeadPlayerProvider _leadPlayerProvider = null!;
 
         private MultiplayerConnectedPlayerFacade _connectedPlayerPrefab = null!;
-        private IConnectedPlayer? _selfPlayer = null;
+        private IBeatSaberConnectedPlayer? _selfPlayer = null;
         private GameObject? _mirrorPlayerGO = null;
         private GameObject? _mirrorBigAvatarGO = null;
         private AvatarController? _newAvatarController;
@@ -153,7 +153,7 @@ namespace MultiplayerMirror.Core
             // Create a "connected player" prefab based on our local player instance
             // This will appear in our place and will effectively render us as a remote player on top of ourselves
             var subContainer = _container.CreateSubContainer();
-            subContainer.BindInterfacesAndSelfTo<IConnectedPlayer>().FromInstance(_selfPlayer);
+            subContainer.BindInterfacesAndSelfTo<IBeatSaberConnectedPlayer>().FromInstance(_selfPlayer);
             subContainer.BindInterfacesAndSelfTo<MultiplayerPlayerStartState>()
                 .FromInstance(MultiplayerPlayerStartState.InSync);
             _mirrorPlayerGO = subContainer.InstantiatePrefab(_connectedPlayerPrefab);

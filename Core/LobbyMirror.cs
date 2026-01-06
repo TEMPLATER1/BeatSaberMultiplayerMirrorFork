@@ -18,8 +18,8 @@ namespace MultiplayerMirror.Core
         [Inject] private readonly PluginConfig _config = null!;
         [Inject] private readonly MultiplayerLobbyAvatarManager _lobbyAvatarManager = null!;
 
-        private IConnectedPlayer? _selfPlayer;
-        private IConnectedPlayer? _mockPlayer;
+        private IBeatSaberConnectedPlayer? _selfPlayer;
+        private IBeatSaberConnectedPlayer? _mockPlayer;
         private MultiplayerLobbyAvatarController? _lobbyAvatarController;
         private AvatarController? _newAvatarController;
         private MirrorAvatarPoseDataProvider? _poseDataProvider;
@@ -54,7 +54,7 @@ namespace MultiplayerMirror.Core
 
         [AffinityPatch(typeof(MultiplayerLobbyAvatarManager), "AddPlayer")]
         [AffinityPostfix]
-        private void HandleLobbyAvatarAdded(IConnectedPlayer connectedPlayer)
+        private void HandleLobbyAvatarAdded(IBeatSaberConnectedPlayer connectedPlayer)
         {
             if (connectedPlayer.isMe)
             {
@@ -185,15 +185,20 @@ namespace MultiplayerMirror.Core
             return null;
         }
 
-        private static IConnectedPlayer CreateMockPlayer(IConnectedPlayer basePlayer)
+        private static IBeatSaberConnectedPlayer CreateMockPlayer(IBeatSaberConnectedPlayer basePlayer)
         {
+            if (basePlayer is not BeatSaberConnectedPlayer bsPlayer)
+            {
+                throw new ArgumentException($"Player {basePlayer.userId} is not a BeatSaberConnectedPlayer???");
+            }
+            
             var mockPlayer = new MockPlayer(new MockPlayerSettings()
             {
                 userId = $"Mirror#{basePlayer.userId}",
                 userName = $"Mirror#{basePlayer.userName}",
                 sortIndex = basePlayer.sortIndex
             }, false);
-            mockPlayer.multiplayerAvatarsData = basePlayer.multiplayerAvatarsData;
+            mockPlayer.multiplayerAvatarsData = bsPlayer.multiplayerAvatarsData;
             return mockPlayer;
         }
 
