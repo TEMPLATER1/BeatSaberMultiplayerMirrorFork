@@ -1,52 +1,28 @@
 <h1>
-    <img src="https://raw.github.com/roydejong/BeatSaberMultiplayerMirror/main/Assets/icon.png" height="32"/>
-    <span>Beat Saber Multiplayer Mirror (PC)</span>
+    <img src="https://avatars.githubusercontent.com/u/40922712?s=48&v=4" height="32"/>
+    <span>Beat Saber Multiplayer Mirror Fork (PC)</span>
 </h1>
 
-**Beat Saber mod that adds mirror options for your multiplayer avatar.**
 
-![Multiplayer Mirror](https://user-images.githubusercontent.com/6772638/136465227-bb4b0d5e-b1e0-49ca-8317-b2a24d4d524e.png)
+*Hello, everyone! Beat Saber Multiplayer Mirror is probably my favorite mod in the game. I play multiplayer very often, and this mod is a real find for me! One evening, I wanted to speed up the update of my favorite mod, so I decided to take the initiative in development and make this fork to share with you the new version of the Multiplayer Mirror mod for the latest version of Beat Saber 1.42.x. Enjoy!*
 
-## Features
+# Many thanks to the mod creator Roy de Jong!
+[**⚙️The original developer**](https://github.com/roydejong/BeatSaberMultiplayerMirror)**
 
-Multiplayer Mirror lets you see your own multiplayer avatar:
+![MetaScreenshot1768237947](https://github.com/user-attachments/assets/585c9395-9719-4b53-8c3d-8373421ac0df)
+![MetaScreenshot1768238015](https://github.com/user-attachments/assets/d6404edf-9d74-40be-9770-b104223e76ac)
+https://youtu.be/Y5_Ohm9hH_M
 
-- As the **1st place hologram** during matches
-- In the **lobby**
-- In the **avatar editor**
-
-👀 These effects are only visible to you. It works in all multiplayer lobbies!
-
-👉 You can toggle these options in the mod's gameplay modifiers panel (on the left in the lobby, under *Mods* →
-*Multiplayer Mirror*).
-
-### Settings
-
-| Setting                       | Description                                                                                                                         |
-|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| **Enable Lobby Mirror**       | If enabled, you'll see an avatar mirror of yourself in the multiplayer lobby.                                                       |
-| **Enable Self Hologram**      | If enabled, you'll see a hologram of yourself in multiplayer games whenever you're in 1st place, just like other players would see. |
-| **Always show Self Hologram** | If enabled, you'll always see your own hologram in game, no matter what place you're in.                                            |
-| **Show Duel Self Hologram**   | If enabled, the Self Hologram will be shown in the Duel (1v1) layout as well.                                                       |
-| **Invert mirror**             | If enabled, your lobby and game mirrors will be inverted, like you are normally on the results screen.                              |                                                                                        
-
-## Installation
-
-This mod is currently only available for PCVR.
-
-💡 **The latest version is available for easy installation via [ModAssistant](https://github.com/bsmg/ModAssistant)!**
-
-You can also manually [**✅ Download the latest release**](https://github.com/roydejong/BeatSaberMultiplayerMirror/releases/latest) if you prefer.
 
 ## Requirements
 
+The mod may also work on earlier versions of the libraries, but I have never tested it. I compiled it and adapted it for the latest libraries.
+
+Beat Saber: v1.42.0 or newer
+BSIPA: v4.3.7 or newer
+SiraUtil: v3.3.1 or newer
+BeatSaberMarkupLanguage: v1.14.1 or newer
+
 ### ✅ Works with Beat Saber 1.42.0+
 
-Check the [releases page](https://github.com/roydejong/BeatSaberMultiplayerMirror/releases/latest) for the latest requirements and compatibility information.
-
-## Usage notes
-
-### MultiplayerExtensions
-
-If you turn off Holograms in MultiplayerExtensions, that setting will be ignored if you enable a self hologram in this
-mod.
+Check the [releases page](https://github.com/TEMPLATER1/BeatSaberMultiplayerMirrorFork/releases/latest) for the latest compatibility information.
