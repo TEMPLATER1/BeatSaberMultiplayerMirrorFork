@@ -8,6 +8,8 @@ using SiraUtil.Affinity;
 using SiraUtil.Logging;
 using UnityEngine;
 using Zenject;
+using HarmonyLib;
+
 
 namespace MultiplayerMirror.Core
 {
@@ -198,24 +200,34 @@ namespace MultiplayerMirror.Core
             // Replace pose controller (mostly for sabers)
             var multiplayerAvatarPoseController = _mirrorBigAvatarGO.GetComponent<MultiplayerAvatarPoseController>();
             multiplayerAvatarPoseController.enabled = false;
-            
+
             _poseController = _mirrorBigAvatarGO.GetComponent<MirrorAvatarPoseController>();
             if (_poseController == null)
                 _poseController = _mirrorBigAvatarGO.AddComponent<MirrorAvatarPoseController>();
             _poseController.Init(_selfPlayer, multiplayerAvatarPoseController);
-            
+
             // Replace pose data provider (for beat avatars)
             _newAvatarController = _mirrorBigAvatarGO.GetComponent<AvatarController>();
-            if (_newAvatarController._poseDataProvider is ConnectedPlayerAvatarPoseDataProvider poseProvider)
+
+            // Use reflection to access the private field _poseDataProvider
+            var poseDataProviderField = AccessTools.Field(typeof(AvatarController), "_poseDataProvider");
+            var currentProvider = poseDataProviderField.GetValue(_newAvatarController);
+
+            if (currentProvider is ConnectedPlayerAvatarPoseDataProvider poseProvider)
             {
                 _poseDataProvider = new MirrorAvatarPoseDataProvider(_selfPlayer, poseProvider);
-                _newAvatarController.SetField<AvatarController, IAvatarPoseDataProvider>("_poseDataProvider", _poseDataProvider); // SetField because readonly
-            }            
-            
+                // Replace SetField with reflection SetValue
+                poseDataProviderField.SetValue(_newAvatarController, _poseDataProvider);
+            }
+
             // The underlying avatar is probably not loaded; but just in case, ensure it uses our pose provider
             if (_newAvatarController.avatar != null)
+            {
+                // Assuming SetPoseDataProvider is accessible; if not, use AccessTools.Method similarly
                 _newAvatarController.avatar.SetPoseDataProvider(_poseDataProvider);
+            }
             else
+                // Your code had an empty else, add logic if needed
                 _pendingAvatarLoad = true;
             
             ApplyInvertAndSwap();

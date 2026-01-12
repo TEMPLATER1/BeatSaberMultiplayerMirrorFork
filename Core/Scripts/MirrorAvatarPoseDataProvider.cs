@@ -2,6 +2,7 @@
 using BeatSaber.AvatarCore;
 using MultiplayerMirror.Core.Helpers;
 using UnityEngine;
+using HarmonyLib;  // Added for AccessTools
 
 namespace MultiplayerMirror.Core.Scripts
 {
@@ -9,13 +10,10 @@ namespace MultiplayerMirror.Core.Scripts
     {
         public bool EnableMirror { get; set; }
         public bool RestrictPose { get; set; }
-
         public IBeatSaberConnectedPlayer LocalPlayer { get; set; }
         public INodePoseSyncStateManager NodePoseSyncStateManager { get; set; }
         public IAvatarPoseRestriction AvatarPoseRestriction { get; set; }
-
         public AvatarPoseData currentPose { get; set; }
-
         public event Action<AvatarPoseData> poseDidChangeEvent = null!;
 
         public MirrorAvatarPoseDataProvider(IBeatSaberConnectedPlayer localPlayer,
@@ -24,7 +22,6 @@ namespace MultiplayerMirror.Core.Scripts
         {
             EnableMirror = true;
             RestrictPose = true;
-
             LocalPlayer = localPlayer;
             NodePoseSyncStateManager = nodePoseSyncStateManager;
             AvatarPoseRestriction = avatarPoseRestriction;
@@ -32,8 +29,19 @@ namespace MultiplayerMirror.Core.Scripts
 
         public MirrorAvatarPoseDataProvider(IBeatSaberConnectedPlayer localPlayer,
             ConnectedPlayerAvatarPoseDataProvider baseProvider)
-            : this(localPlayer, baseProvider._nodePoseSyncStateManager, baseProvider._avatarPoseRestriction)
         {
+            // Use reflection to access private fields from baseProvider
+            var nodePoseSyncField = AccessTools.Field(typeof(ConnectedPlayerAvatarPoseDataProvider), "_nodePoseSyncStateManager");
+            var avatarPoseRestrictionField = AccessTools.Field(typeof(ConnectedPlayerAvatarPoseDataProvider), "_avatarPoseRestriction");
+
+            var nodePoseSyncStateManager = (INodePoseSyncStateManager)nodePoseSyncField.GetValue(baseProvider);
+            var avatarPoseRestriction = (IAvatarPoseRestriction)avatarPoseRestrictionField.GetValue(baseProvider);
+
+            EnableMirror = true;
+            RestrictPose = true;
+            LocalPlayer = localPlayer;
+            NodePoseSyncStateManager = nodePoseSyncStateManager;
+            AvatarPoseRestriction = avatarPoseRestriction;
         }
 
         public void Tick()
@@ -42,23 +50,19 @@ namespace MultiplayerMirror.Core.Scripts
             if (poseDidChangeEvent == null)
                 // No one is listening (yet) :(
                 return;
-
             var localState = NodePoseSyncStateManager.localState;
             if (localState == null)
                 return;
-
             var offsetTime = LocalPlayer.offsetSyncTime;
             var headPose = localState.GetState(NodePoseSyncState.NodePose.Head, offsetTime);
             var leftPose = localState.GetState(NodePoseSyncState.NodePose.LeftController, offsetTime);
             var rightPose = localState.GetState(NodePoseSyncState.NodePose.RightController, offsetTime);
-
             Vector3 headPos = headPose.position;
             Vector3 leftPos = leftPose.position;
             Vector3 rightPos = rightPose.position;
             Quaternion headRot = headPose.rotation;
             Quaternion leftRot = leftPose.rotation;
             Quaternion rightRot = rightPose.rotation;
-
             if (EnableMirror)
             {
                 headPos = MirrorUtil.MirrorPosition(headPos);
@@ -68,13 +72,11 @@ namespace MultiplayerMirror.Core.Scripts
                 leftRot = MirrorUtil.MirrorRotation(leftRot);
                 rightRot = MirrorUtil.MirrorRotation(rightRot);
             }
-
             if (RestrictPose)
             {
                 AvatarPoseRestriction.RestrictPose(headRot, headPos, leftPos, rightPos,
                     out headPos, out leftPos, out rightPos);
             }
-
             currentPose = new AvatarPoseData
             (
                 new Pose(headPos, headRot),
